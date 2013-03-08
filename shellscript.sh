@@ -37,10 +37,49 @@ pkgToDisabledLoc() {
 	echo "/system/app/Old${pkg}.old"
 }
 
+pathcheck_disable() {
+	pkgToLocation $1
+}
+
+do_disable() {
+	echo "Disabling $1 by rename..."
+	mv "$(pkgToLocation ${1})" "$(pkgToDisabledLoc ${1})"
+}
+
+pathcheck_remove() {
+	pathcheck_disable $1
+}
+
+do_remove() {
+	echo "Permanently removing $1 (until you next reflash the main ROM)"
+	rm -f "$(pkgToLocation ${1})"
+}
+
+pathcheck_enable() {
+	pkgToDisabledLoc $1
+}
+
+do_enable() {
+	echo "Re-enabling $1 by rename..."
+	mv "$(pkgToDisabledLoc ${1})" "$(pkgToLocation ${1})"
+}
+
+mode=$1
+if [ -z "$mode" ]; then
+	mode=disable
+fi
+
+changesFlag="not "
 
 for pkg in $PKGS; do
-	if [ -f "$(pkgToLocation ${pkg})" ]; then
-		echo "Disabling ${pkg}"
-		mv "$(pkgToLocation ${pkg})" "$(pkgToDisabledLoc ${pkg})"
+	if [ -f "$(pathcheck_${mode} ${pkg})" ]; then
+		do_${mode} ${pkg}
+		changesFlag=""
+	else
+		#echo "Skipping ${pkg}"
+		echo
 	fi
 done
+
+echo
+echo "Phone shell script complete. Changes ${changesFlag}made."

@@ -26,7 +26,7 @@ REM SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 pushd "%~dp0"
 
-echo --- Will reversibly disable phone packages
+echo --- Will re-enable phone packages
 echo.
 
-call "common.cmd" disable
+call "common.cmd" enable

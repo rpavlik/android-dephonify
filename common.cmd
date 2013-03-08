@@ -25,8 +25,27 @@ REM TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 REM SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 pushd "%~dp0"
+echo --- Starting ADB and waiting for phone...
+adb start-server
+adb wait-for-device
 
-echo --- Will reversibly disable phone packages
 echo.
+echo --- Transferring shell script and making executable...
+adb push shellscript.sh /data/tmp/modify-phone.sh
+adb shell chmod 755 /data/tmp/modify-phone.sh
 
-call "common.cmd" disable
+echo.
+echo --- Executing shell script to rename phone-related APKs: messages between
+echo --- the lines below are from the phone script.
+echo.
+echo --------------
+adb shell /data/tmp/modify-phone.sh %1
+echo --------------
+
+echo.
+echo All done - shutting down ADB server.  Please reboot your phone-shaped tablet!
+echo Please rerun this script (rebooting in between) until the phone script messages
+echo above say "Changes not made."
+
+echo.
+pause

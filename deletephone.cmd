@@ -25,8 +25,11 @@ REM TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 REM SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. 
 
 pushd "%~dp0"
+echo WARNING: This script will actually delete, not just rename, the packages
+echo related to phone service. The only way to undo this script is to re-flash
+echo your system ROM.  If you don't want to do this, this is your last chance to
+echo cancel with Ctrl-C or closing the window.
 
-echo --- Will reversibly disable phone packages
-echo.
+pause
 
-call "common.cmd" disable
+call "common.cmd" delete
