@@ -27,7 +27,7 @@
 
 mount -ro remount,rw /system
 
-PKGS="TelephonyProvider.apk Phone.apk Network3gMonitor.apk Provision.apk shortcut3g.apk Mms.apk Stk.apk"
+PKGS="CellBroadcastReceiver.apk TelephonyProvider.apk TelocationProvider.apk Phone.apk Network3gMonitor.apk Provision.apk shortcut3g.apk Mms.apk Stk.apk WAPPushManager.apk"
 
 pkgToLocation() {
 	echo "/system/app/$1"
